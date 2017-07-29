@@ -9,12 +9,11 @@
  * License: GPLv2 or later
  */
 
-// For security purposes. No direct browsing!
+// For security purposes, no direct browsing!
 if (!defined('ABSPATH')) exit;
 
-// Create sub menu on the appearance admin menu
+// Create a sub menu on the appearance admin menu
 add_action('admin_menu', 'mobile_browser_address_bar_color_create_menu');
-
 function mobile_browser_address_bar_color_create_menu() {
 	add_theme_page('Color Mobile Browser Address Bar', 'Mobile Browser Address Bar Color', 'manage_options', 'm-address-bar-color', 'm_address_bar_color_function');
 	
@@ -23,7 +22,7 @@ function mobile_browser_address_bar_color_create_menu() {
     );
 }
 
-// Register Settings
+// Register settings
 function register_m_address_bar_color_settings() {
     register_setting	(	'save-m-address-bar-color-settings',
         'mobile_browser_address_bar_color_value'
@@ -44,7 +43,7 @@ function m_address_bar_color_add_color_picker( $hook ) {
 	}
 }
 
-// Create Settings Page
+// Create plugin settings page
 function m_address_bar_color_function() {
     if (!current_user_can('manage_options')) {
         wp_die( __("Oops! You've gone too far."));
