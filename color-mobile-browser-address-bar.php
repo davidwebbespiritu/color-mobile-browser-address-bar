@@ -3,7 +3,7 @@
  * Plugin Name: Color Mobile Browser Address Bar
  * Plugin URI: https://github.com/webbteche/Color-Mobile-Browser-Address-Bar
  * Description: A Wordpress plugin that lets you add a custom color to the address bar of mobile browsers.
- * Version: 1.0.2
+ * Version: 1.0.3
  * Author: Webb Jamelo
  * Author URI: https://github.com/webbteche
  * License: GPLv2 or later
@@ -30,11 +30,11 @@ function register_m_address_bar_color_settings() {
     );
 }
 
-// Add Color picker
+// Enqueue Color picker scripts
 add_action( 'admin_enqueue_scripts', 'm_address_bar_color_add_color_picker' );
 function m_address_bar_color_add_color_picker( $hook ) {
  
-	if( is_admin() ) {
+	if( $_GET["page"] == "m-address-bar-color" ) {
 		
 		// Add the color picker css file       
         wp_enqueue_style( 'wp-color-picker' ); 
