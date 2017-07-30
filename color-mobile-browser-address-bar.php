@@ -39,7 +39,7 @@ function m_address_bar_color_add_color_picker( $hook ) {
         wp_enqueue_style( 'wp-color-picker' ); 
          
         // Include our custom jQuery file with WordPress Color Picker dependency
-        wp_enqueue_script( 'custom-script-handle', plugins_url( 'assets/custom-script.js', __FILE__ ), array( 'wp-color-picker' ), false, true ); 
+        wp_enqueue_script( 'custom-script-handle', plugins_url( 'admin/js/custom-script.js', __FILE__ ), array( 'wp-color-picker' ), false, true ); 
 	}
 }
 
