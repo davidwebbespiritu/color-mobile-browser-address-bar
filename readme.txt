@@ -22,10 +22,7 @@ No more unsafe editing of your theme's header.php file. You simply follow the in
 1. Go to appearance menu > Mobile Browser Address Bar Color.
 1. Then just select the color that you want.
 1. Click save changes.
-1. Thats it! There will be no confirmation dialog but if you goto your site and view page source and search for "theme-color" or you can just test it on mobile chrome browser then you'll know it's working.
-
-PS: It didn't have a confirmation dialog because it's for future release and to lessen codes and bugs.
-If you have any problem other than that. Please contact me and I will be glad to help.
+1. Thats it!
 
 == Frequently Asked Questions ==
 
