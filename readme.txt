@@ -3,7 +3,7 @@ Contributors: webbteche
 Tags: mobile address bar color, theme color, meta tag for theme color, theme color on address bar
 Requires at least: 3.8
 Tested up to: 4.8
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,10 @@ No more unsafe editing of your theme's header.php file. You simply follow the in
 You're probably using different browser like Opera. For best solution try using Chrome and if still not working just contact me and I will be glad to help.
 
 == Changelog ==
+
+= 1.0.5 =
+*7/31/2017
+Added Admin Notices
 
 = 1.0.4 =
 *7/31/2017
