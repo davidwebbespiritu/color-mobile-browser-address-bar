@@ -57,6 +57,8 @@ function m_address_bar_color_function( )
 		settings_fields( 'save-m-address-bar-color-settings' );
 		do_settings_sections( 'save-m-address-bar-color-settings' );
 		
+		//Display admin notices
+		settings_errors();
 		$mobile_browser_address_bar_color_value = esc_attr( get_option( 'mobile_browser_address_bar_color_value' ) );
 
 		?>
