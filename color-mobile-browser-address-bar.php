@@ -3,92 +3,98 @@
  * Plugin Name: Color Mobile Browser Address Bar
  * Plugin URI: https://wordpress.org/plugins/color-mobile-browser-address-bar
  * Description: A WordPress plugin that lets you add a custom color to the address bar of mobile browsers.
- * Version: 1.0.5
+ * Version: 1.0.9
  * Author: Webb Jamelo
- * Author URI: https://github.com/webbteche
+ * Author URI: https://profiles.wordpress.org/webbteche
  * License: GPLv2 or later
  */
 
-// For security purposes, no direct browsing!
+// For security purposes
 if ( !defined( 'ABSPATH' ) )
     exit;
 
 // Create a sub menu on the appearance admin menu
-add_action( 'admin_menu', 'mobile_browser_address_bar_color_create_menu' );
-function mobile_browser_address_bar_color_create_menu( )
+add_action( 'admin_menu', 'cmbab_create_menu' );
+function cmbab_create_menu( )
   {
-    add_theme_page( 'Color Mobile Browser Address Bar', 'Mobile Browser Address Bar Color', 'manage_options', 'm-address-bar-color', 'm_address_bar_color_function' );
-    add_action( 'admin_init', 'register_m_address_bar_color_settings' );
+    add_theme_page( 'Color Mobile Browser Address Bar', 'Mobile Browser Address Bar Color', 'manage_options', 'color-mobile-browser-address-bar', 'cmbab_main_function' );
+    add_action( 'admin_init', 'cmbab_register_settings' );
   }
-  
+
 // Register settings
-function register_m_address_bar_color_settings( )
+function cmbab_register_settings( )
   {
-    register_setting( 'save-m-address-bar-color-settings', 'mobile_browser_address_bar_color_value' );
+    register_setting( 'cmbab-settings-group', 'cmbab_color_value', 'sanitize_hex_color' );
   }
-  
+
 // Enqueue Color picker scripts
-add_action( 'admin_enqueue_scripts', 'm_address_bar_color_add_color_picker' );
-function m_address_bar_color_add_color_picker( $hook )
+add_action( 'admin_enqueue_scripts', 'cmbab_enqueue_color_picker_scripts' );
+function cmbab_enqueue_color_picker_scripts( $hook )
   {
-    if ( 'appearance_page_m-address-bar-color' != $hook )
+    if ( 'appearance_page_color-mobile-browser-address-bar' != $hook )
         return;
-    // Add the color picker css file       
-    wp_enqueue_style( 'wp-color-picker' );
-    // Include our custom jQuery file with WordPress Color Picker dependency
-    wp_enqueue_script( 'custom-script-handle', plugins_url( 'admin/js/custom-script.js', __FILE__ ), array(
-         'wp-color-picker' 
-    ), false, true );
+	
+	wp_enqueue_style
+	( 'wp-color-picker' );
+	
+	wp_enqueue_script
+	( 'custom-script-handle', plugins_url( 'admin/js/custom-script.js', __FILE__ ), array('wp-color-picker'), false, true );
   }
   
 // Create plugin settings page
-function m_address_bar_color_function( )
+function cmbab_main_function( )
   {
     if ( !current_user_can( 'manage_options' ) )
       {
-        wp_die( __( "Oops! You've gone too far." ) );
+        wp_die( "Oops! You've gone too far." );
       }
 ?>
 
 	<div class="wrap">
-	<h2>Just add the color!</h2>
+	<h2>Color Mobile Browser Address Bar</h2>
         <form method="post" action="options.php">
 		<?php
-		settings_fields( 'save-m-address-bar-color-settings' );
-		do_settings_sections( 'save-m-address-bar-color-settings' );
+		settings_fields( 'cmbab-settings-group' );
+		do_settings_sections( 'cmbab-settings-group' );
 		
 		//Display admin notices
 		settings_errors();
-		$mobile_browser_address_bar_color_value = esc_attr( get_option( 'mobile_browser_address_bar_color_value' ) );
+		
+		$cmbab_color_value = esc_attr( get_option( 'cmbab_color_value' ) );
 
 		?>
 			<table class="form-table">
 				<tr valign="top">
 					<th scope="row">Set Color</th>
 						<td>
-							<input type="text" id="mbabc_color_picker_id" name="mobile_browser_address_bar_color_value" value="
-							<?php echo $mobile_browser_address_bar_color_value;?>" />
+							<input type="text" id="cmbab_color_picker_id" name="cmbab_color_value" data-default-color="#f3f3f3" value="<?php echo $cmbab_color_value;?>" />
 						</td>
 				</tr>
             </table>
-		<?php
-		submit_button();
-?>
+		
+		<?php submit_button();?>
+		
 		</form>
     </div>
 	<?php
   }
   
-// add meta tag in <head>.
-add_action( 'wp_head', 'm_address_mobile_address_bar' );
-function m_address_mobile_address_bar( )
+// add theme color meta data on the <head>
+add_action( 'wp_head', 'cmbab_add_theme_color_metadata' );
+function cmbab_add_theme_color_metadata( )
   {
-    $mobile_browser_address_bar_color_value = esc_attr( get_option( 'mobile_browser_address_bar_color_value' ) );
+    $cmbab_color_value = esc_attr( get_option( 'cmbab_color_value' ) );
+
+	// Add default value when first activated or somebody made an invalid hex color input
+	if (strlen($cmbab_color_value) == 0)
+	{
+		$cmbab_color_value = "#f3f3f3";
+	}
     
 	//this is for Chrome, Firefox
-    echo '<meta name="theme-color" content="' . $mobile_browser_address_bar_color_value . '">';
+    echo '<meta name="theme-color" content="' . $cmbab_color_value . '">';
     //this is for Windows Phone
-    echo '<meta name="msapplication-navbutton-color" content="' . $mobile_browser_address_bar_color_value . '">';
+    echo '<meta name="msapplication-navbutton-color" content="' . $cmbab_color_value . '">';
     //this is for iOS Safari
     echo '<meta name="apple-mobile-web-app-capable" content="yes">';
     echo '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">';
